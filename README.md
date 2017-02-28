@@ -35,6 +35,8 @@ Your local database will need to provide external access to the Docker container
         - __BE CAREFUL, IF YOU USE A WILDCARD THIS GIVES ACCESS TO ANYBODY__
     - restart MySQL:
         - `brew services restart mysql`
+    - test the remote connection to local MySQL using:
+        - `mysql -h 10.200.10.1 -u root -p`
 
 ### Docker on OSX
 - Use the native Docker installer for OSX rather than the Docker Toolbox:
@@ -47,5 +49,5 @@ Your local database will need to provide external access to the Docker container
 - Once its built, start a container as follows:
 
 ```bash
-docker run --add-host=mysql_host:10.200.10.1 -e SEMAPHORE_DB=semaphore -e SEMAPHORE_DB_HOST=mysql_host -e SEMAPHORE_DB_USER=semaphore_user -e SEMAPHORE_DB_PASS=password -it --rm happner/ansible-client:v1`
+docker run -e SEMAPHORE_DB=semaphore -e SEMAPHORE_DB_HOST=10.200.10.1 -e SEMAPHORE_DB_PORT=3306 -e SEMAPHORE_DB_USER=semaphore_user -e SEMAPHORE_DB_PASS=password -it --rm nsoft/semaphore:v1
 ```
