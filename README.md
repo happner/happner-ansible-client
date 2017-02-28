@@ -5,6 +5,19 @@ Client application for happner-ansible-orchestration based on Semaphore
 
 As this is based on [Semaphore](https://github.com/ansible-semaphore/semaphore), an open-source client, the provided Dockerfile was used to get things running.
 
+### Semaphore repo
+
+- Clone the Semaphore repo from [https://github.com/ansible-semaphore/semaphore](https://github.com/ansible-semaphore/semaphore) into a local directory
+
+- Modify the default __Dockerfile__ in the root as follows:
+
+  ```bash
+  #CMD ["/usr/bin/semaphore", "-config", "/etc/semaphore/semaphore_config.json"]
+  CMD ["/bin/ash"]
+  ```
+
+- The reason for doing the above is so that you are able to access the shell (to set up the configuration file) rather than starting Semaphore straight away.
+
 ### Networking
 - In preparation for running Semaphore in a Docker container, you'll need to set up local networking to allow outgoing
        requests from the container to access a local MySQL database:
@@ -43,11 +56,45 @@ Your local database will need to provide external access to the Docker container
   - [https://www.docker.com/products/docker#/mac](https://www.docker.com/products/docker#/mac)
 
 ### Docker image
-- Build the image using something like:
+- From the root of the project, build the Docker image using something like:
 
   `sudo docker build -t happner/ansible-client:v1 .`
 - Once its built, start a container as follows:
 
 ```bash
-docker run -e SEMAPHORE_DB=semaphore -e SEMAPHORE_DB_HOST=10.200.10.1 -e SEMAPHORE_DB_PORT=3306 -e SEMAPHORE_DB_USER=semaphore_user -e SEMAPHORE_DB_PASS=password -it --rm nsoft/semaphore:v1
+docker run -e SEMAPHORE_DB=semaphore -e SEMAPHORE_DB_HOST=10.200.10.1 -e SEMAPHORE_DB_PORT=3306 -e SEMAPHORE_DB_USER=semaphore_user -e SEMAPHORE_DB_PASS=password 
+-e SEMAPHORE_ADMIN=admin -e SEMAPHORE_ADMIN_NAME=admin -e SEMAPHORE_ADMIN_EMAIL=admin@test.com -e SEMAPHORE_ADMIN_PASSWORD=password -p 3000:3000 -it --rm happner/ansible-client:v1
 ```
+
+- The above ENV variables will ensure that Semaphore can connect to the local MySQL instance and will also create a default __admin__ user
+
+- Sample output of starting the container:
+
+  ```bash
+   > Username:  > Email:  > Your name:  > Password: 
+   You are all setup !
+   Re-launch this program pointing to the configuration file
+
+  ./semaphore -config /tmp/semaphore/semaphore_config.json
+  ....
+  ```
+
+  - notice that the location of the semaphore_config.json is in the temp directory in the container. You'll need to move this in the container as follows:
+
+    ```bash
+    cp /tmp/semaphore/semaphore_config.json /etc/semaphore/semaphore_config.json
+    ```
+
+    ​
+
+  - now you can start Semaphore - it will use the config copied above
+
+    ```bash
+    /usr/bin/semaphore -config /etc/semaphore/semaphore_config.json
+    ```
+
+- The API endpoints should all be displayed in the container terminal
+
+- You'll now be able to access the web application via __localhost:3000__!
+
+- Good luck ;-)
