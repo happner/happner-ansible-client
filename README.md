@@ -8,8 +8,10 @@ As this is based on Semaphore, an open-source client, the provided Dockerfile wa
 ### Networking
 - In preparation for running Semaphore in a Docker container, you'll need to set up local networking to allow outgoing
  requests from the container to access a local MySQL database:
-    - set up an alias on the local loopback interface, eg: `sudo ifconfig lo0 alias 10.200.10.1/24`
-    - (to remove this just use `sudo ifconfig lo0 -alias 10.200.10.1`)
+    - set up an alias on the local loopback interface, eg: 
+    `sudo ifconfig lo0 alias 10.200.10.1/24`
+    - to remove this just use: 
+    `sudo ifconfig lo0 -alias 10.200.10.1`
 
 ### External access to a local MySQL database
 - Your local database will need to provide external access to the Docker container
@@ -28,8 +30,9 @@ As this is based on Semaphore, an open-source client, the provided Dockerfile wa
 
 ### Docker image
 - Build the image using something like:
-    - `sudo docker build -t happner/ansible-client:v1 .`
+`sudo docker build -t happner/ansible-client:v1 .`
 - Once its built, start a container as follows:
-    ```bash
-    docker run --add-host=mysql_host:10.200.10.1 -e SEMAPHORE_DB=semaphore -e SEMAPHORE_DB_HOST=mysql_host -e SEMAPHORE_DB_USER=semaphore_user -e SEMAPHORE_DB_PASS=password -it --rm happner/ansible-client:v1`
-    ```
+    
+```bash
+    docker run --add-host=mysql_host:10.200.10.1 -e SEMAPHORE_DB=semaphore -e SEMAPHORE_DB_HOST=mysql_host -e  SEMAPHORE_DB_USER=semaphore_user -e SEMAPHORE_DB_PASS=password -it --rm happner/ansible-client:v1`
+```
