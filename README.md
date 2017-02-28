@@ -97,4 +97,7 @@ docker run -e SEMAPHORE_DB=semaphore -e SEMAPHORE_DB_HOST=10.200.10.1 -e SEMAPHO
 
 - You'll now be able to access the web application via __localhost:3000__!
 
+  - __*__ the admin login credentials are the ENV vars that you passed in when starting the container (see docker run above):  __admin__ : __password__
+
 - Good luck ;-)
+
