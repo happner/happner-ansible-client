@@ -85,8 +85,6 @@ docker run -e SEMAPHORE_DB=semaphore -e SEMAPHORE_DB_HOST=10.200.10.1 -e SEMAPHO
     cp /tmp/semaphore/semaphore_config.json /etc/semaphore/semaphore_config.json
     ```
 
-    ​
-
   - now you can start Semaphore - it will use the config copied above
 
     ```bash
@@ -100,4 +98,3 @@ docker run -e SEMAPHORE_DB=semaphore -e SEMAPHORE_DB_HOST=10.200.10.1 -e SEMAPHO
   - __*__ the admin login credentials are the ENV vars that you passed in when starting the container (see docker run above):  __admin__ : __password__
 
 - Good luck ;-)
-
