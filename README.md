@@ -21,16 +21,19 @@ As this is based on Semaphore, an open-source client, the provided Dockerfile wa
     - you should see a line that reads 
         `bind-address=...`
     - if this is __127.0.0.1__ you'll need to change the value to the alias created above
-    - locate the relevant file to change this value:
+    - locate the relevant file to change this value (you should find this in your grep result):
         - if you've used __brew__ to install MySQL, it should be in `usr/local/Cellar/mysql/[version]/homebrew.mxcl.mysql.plist`
         - `nano /usr/local/Cellar/mysql/5.7.17/homebrew.mxcl.mysql.plist`
         - change the line that says 
           `<string>--bind-address=127.0.0.1</string>`
            to your alias address or `*` or `0.0.0.0`
         - __BE CAREFUL, IF YOU USE A WILDCARD THIS GIVES ACCESS TO ANYBODY__
+    - restart MySQL:
+        - `brew services restart mysql`
 
 ### Docker on OSX
-- Use the native Docker installer for OSX rather than the Docker Toolbox
+- Use the native Docker installer for OSX rather than the Docker Toolbox:
+  - [https://www.docker.com/products/docker#/mac](https://www.docker.com/products/docker#/mac)
 
 ### Docker image
 - Build the image using something like:
