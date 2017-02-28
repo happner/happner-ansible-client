@@ -1,9 +1,9 @@
 # happner-ansible-client
 Client application for happner-ansible-orchestration based on Semaphore
 
-## Developer notes
+## DEVELOPER NOTES
 
-As this is based on Semaphore, an open-source client, the provided Dockerfile was used to get things running.
+As this is based on [Semaphore](https://github.com/ansible-semaphore/semaphore), an open-source client, the provided Dockerfile was used to get things running.
 
 ### Networking
 - In preparation for running Semaphore in a Docker container, you'll need to set up local networking to allow outgoing
@@ -47,5 +47,5 @@ Your local database will need to provide external access to the Docker container
 - Once its built, start a container as follows:
 
 ```bash
-docker run --add-host=mysql_host:10.200.10.1 -e SEMAPHORE_DB=semaphore -e SEMAPHORE_DB_HOST=mysql_host -e  SEMAPHORE_DB_USER=semaphore_user -e SEMAPHORE_DB_PASS=password -it --rm happner/ansible-client:v1`
+docker run --add-host=mysql_host:10.200.10.1 -e SEMAPHORE_DB=semaphore -e SEMAPHORE_DB_HOST=mysql_host -e SEMAPHORE_DB_USER=semaphore_user -e SEMAPHORE_DB_PASS=password -it --rm happner/ansible-client:v1`
 ```
