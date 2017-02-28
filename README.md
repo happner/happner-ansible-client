@@ -9,13 +9,14 @@ As this is based on Semaphore, an open-source client, the provided Dockerfile wa
 - In preparation for running Semaphore in a Docker container, you'll need to set up local networking to allow outgoing
  requests from the container to access a local MySQL database:
     - set up an alias on the local loopback interface, eg: 
-    `sudo ifconfig lo0 alias 10.200.10.1/24`
+`sudo ifconfig lo0 alias 10.200.10.1/24`
     - to remove this just use: 
-    `sudo ifconfig lo0 -alias 10.200.10.1`
+`sudo ifconfig lo0 -alias 10.200.10.1`
 
 ### External access to a local MySQL database
 - Your local database will need to provide external access to the Docker container
-- Check the bindings on the local MySQL using: `ps -ax | grep mysql`
+- Check the bindings on the local MySQL using: 
+`ps -ax | grep mysql`
     - this will show a list of processes for MySQL
     - you should see a line that reads `bind-address=...`
     - if this is __127.0.0.1__ you'll need to change the value to the alias created above
