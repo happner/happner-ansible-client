@@ -14,7 +14,12 @@ As this is based on Semaphore, an open-source client, the provided Dockerfile wa
       `sudo ifconfig lo0 -alias 10.200.10.1`
 
 ### External access to a local MySQL database
-- Your local database will need to provide external access to the Docker container
+Your local database will need to provide external access to the Docker container - see below:
+
+- Ensure that you have a user on the local MySQL database that allows external access, eg:
+    - `CREATE USER 'semaphore_user'@'10.100.10.1' IDENTIFIED BY 'password';` 
+    - `GRANT ALL PRIVILEGES ON semaphore.* TO 'semaphore_user'@'10.200.10.1';`
+    - `FLUSH PRIVILEGES;`
 - Check the bindings on the local MySQL using: 
       `ps -ax | grep mysql`
     - this will show a list of processes for MySQL
