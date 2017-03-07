@@ -137,44 +137,44 @@ Assuming that you have already followed these simple steps in the relevant tabs:
 
 The remaining steps (in detail) are:
 
-- __Inventory__:
+- __Inventory__ :
 
-  - in the Inventory tab, click the "create inventory" button to produce the following modal:
+  in the Inventory tab, click the "create inventory" button to produce the following modal:
 
-    ![inventory_semaphore_0](https://cloud.githubusercontent.com/assets/9947358/23649210/542b5596-0326-11e7-90f6-b7be64c6a4c3.png)
-    ​
+  ![inventory_semaphore_0](https://cloud.githubusercontent.com/assets/9947358/23649210/542b5596-0326-11e7-90f6-b7be64c6a4c3.png)
+  ​
 
-  - once you've saved this, click the "edit inventory content" button for this item
+  once you've saved this, click the "edit inventory content" button for this item
 
-    ![inventory_semaphore_1](https://cloud.githubusercontent.com/assets/9947358/23649211/543426f8-0326-11e7-89eb-229bc411557d.png)
+  ![inventory_semaphore_1](https://cloud.githubusercontent.com/assets/9947358/23649211/543426f8-0326-11e7-89eb-229bc411557d.png)
 
-  - fill in your server IP addresses (and optionally host name and user), one server per line
+  fill in your server IP addresses (and optionally host name and user), one server per line
 
-    ![inventory_semaphore_2](https://cloud.githubusercontent.com/assets/9947358/23649212/543c4a54-0326-11e7-9754-a636da5e119d.png)
-    ​
+  ![inventory_semaphore_2](https://cloud.githubusercontent.com/assets/9947358/23649212/543c4a54-0326-11e7-9754-a636da5e119d.png)
+  ​
 
 
 
-- __Task Templates__:
+- __Task Templates__ :
 
-  - Click the "new template" button to create a new task template:
+  click the "new template" button to create a new task template:
 
-    ![templates_semaphore_0](https://cloud.githubusercontent.com/assets/9947358/23649214/54448e4e-0326-11e7-8899-20a69ee4912e.png)
-    ​
+  ![templates_semaphore_0](https://cloud.githubusercontent.com/assets/9947358/23649214/54448e4e-0326-11e7-8899-20a69ee4912e.png)
+  ​
 
-  - Save this...
-    ​
-    ![templates_semaphore_1](https://cloud.githubusercontent.com/assets/9947358/23649213/54438314-0326-11e7-8be2-63b72d3c1022.png)
+  save this...
+  ​
+  ![templates_semaphore_1](https://cloud.githubusercontent.com/assets/9947358/23649213/54438314-0326-11e7-8be2-63b72d3c1022.png)
 
-  - You're now ready to run the task - press the "run" button (you can select debug for a detailed trace of the Ansible output). The overrides are optional.
+  You're now ready to run the task - press the "run" button (you can select debug for a detailed trace of the Ansible output). The overrides are optional.
 
-    ![templates_semaphore_2](https://cloud.githubusercontent.com/assets/9947358/23649215/5447f94e-0326-11e7-993e-a8e913565d29.png)
+  ![templates_semaphore_2](https://cloud.githubusercontent.com/assets/9947358/23649215/5447f94e-0326-11e7-993e-a8e913565d29.png)
 
-    ​
+  ​
 
-  - If you have a successful run, you'll see output something like this:
+  If you have a successful run, you'll see output something like this:
 
-    ![templates_semaphore_3](https://cloud.githubusercontent.com/assets/9947358/23649216/546d7124-0326-11e7-8351-69533c80d2cc.png)
-    ​
+  ![templates_semaphore_3](https://cloud.githubusercontent.com/assets/9947358/23649216/546d7124-0326-11e7-8351-69533c80d2cc.png)
+  ​
 
 - You should now have successfully deployed to your servers!
