@@ -139,12 +139,12 @@ The remaining steps (in detail) are:
 
 - __Inventory__ :
 
-  in the Inventory tab, click the "create inventory" button to produce the following modal:
+  in the Inventory tab, click the "create inventory" button to produce the following modal. Enter your selected details:
 
   ![inventory_semaphore_0](https://cloud.githubusercontent.com/assets/9947358/23649210/542b5596-0326-11e7-90f6-b7be64c6a4c3.png)
   ​
 
-  once you've saved this, click the "edit inventory content" button for this item
+  once you've saved this, click the "edit inventory content" button on this line item:
 
   ![inventory_semaphore_1](https://cloud.githubusercontent.com/assets/9947358/23649211/543426f8-0326-11e7-89eb-229bc411557d.png)
 
