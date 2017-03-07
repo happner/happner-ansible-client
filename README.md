@@ -36,21 +36,21 @@ Your local database will need to provide external access to the Docker container
     - `GRANT ALL PRIVILEGES ON semaphore.* TO 'semaphore_user'@'10.200.10.1';`
     - `FLUSH PRIVILEGES;`
 -   Check the bindings on the local MySQL using: 
-        `ps -ax | grep mysql`
-    - this will show a list of processes for MySQL
-    - you should see a line that reads 
-          `bind-address=...`
-    - if this is __127.0.0.1__ you'll need to change the value to the alias created above
-    - locate the relevant file to change this value (you should find this in your grep result):
+          `ps -ax | grep mysql`
+    -   this will show a list of processes for MySQL
+    -   you should see a line that reads 
+            `bind-address=...`
+    -   if this is __127.0.0.1__ you'll need to change the value to the alias created above
+    -   locate the relevant file to change this value (you should find this in your grep result):
         - if you've used __brew__ to install MySQL, it should be in `usr/local/Cellar/mysql/[version]/homebrew.mxcl.mysql.plist`
         - `nano /usr/local/Cellar/mysql/5.7.17/homebrew.mxcl.mysql.plist`
         - change the line that says 
           `<string>--bind-address=127.0.0.1</string>`
            to your alias address or `*` or `0.0.0.0`
         - __BE CAREFUL, IF YOU USE A WILDCARD THIS GIVES ACCESS TO ANYBODY__
-    - restart MySQL:
+    -   restart MySQL:
         - `brew services restart mysql`
-    - test the remote connection to local MySQL using:
+    -   test the remote connection to local MySQL using:
         - `mysql -h 10.200.10.1 -u root -p`
 
 ### Docker on OSX
@@ -110,19 +110,19 @@ Once you have Semaphore up and running, you can start to create deployment scena
 
 ### Terms used
 
-- _Repositories_
+- __Repositories__
   - these are the Github repos that contain the Ansible playbook/roles required for a deployment
   - any SSH keys required to access the repo are referred to here (see below)
-- _Key Store_
+- __Key Store__
   - this is where the SSH keys are saved for access to:
     - Github repos
     - deployment targets (servers that playbooks will be deploying to) - i.e.: __Inventory__
-- _Environment_
+- __Environment__
   - a label for a group of servers
-- _Inventory_
+- __Inventory__
   - this is where the individual servers are listed for an environment
   - each server is a deployment target
-- _Task templates_
+- __Task templates__
   - this is where all the above variables can be assembled to create a deployment scenario
 
 
@@ -131,13 +131,13 @@ Once you have Semaphore up and running, you can start to create deployment scena
 
 Assuming that you have already followed these simple steps in the relevant tabs:
 
-- ___Key Store___ - added SSH keys for Github repo and for access to deployment server/s
-- ___Playbook Repository___ - added your Ansible playbook repo URI and associated SSH key
-- ___Environment___ - created an environment label
+- __Key Store__ - added SSH keys for Github repo and for access to deployment server/s
+- __Playbook Repository__ - added your Ansible playbook repo URI and associated SSH key
+- __Environment__ - created an environment label
 
 The remaining steps (in detail) are:
 
-- ___Inventory___:
+- __Inventory__:
 
   - in the Inventory tab, click the "create inventory" button to produce the following modal:
 
@@ -155,7 +155,7 @@ The remaining steps (in detail) are:
 
 
 
-- ___Task Templates___:
+- __Task Templates__:
 
   - Click the "new template" button to create a new task template:
 
@@ -172,7 +172,7 @@ The remaining steps (in detail) are:
 
     ​
 
-  -  If you have a successful run, you'll see output something like this:
+  - If you have a successful run, you'll see output something like this:
 
     ![templates_semaphore_3](https://cloud.githubusercontent.com/assets/9947358/23649216/546d7124-0326-11e7-8351-69533c80d2cc.png)
     ​
