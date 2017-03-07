@@ -110,19 +110,19 @@ Once you have Semaphore up and running, you can start to create deployment scena
 
 ### Terms used
 
-- *Repositories*
+- _Repositories_
   - these are the Github repos that contain the Ansible playbook/roles required for a deployment
   - any SSH keys required to access the repo are referred to here (see below)
-- *Key Store*
+- _Key Store_
   - this is where the SSH keys are saved for access to:
     - Github repos
     - deployment targets (servers that playbooks will be deploying to) - i.e.: __Inventory__
-- *Environment*
+- _Environment_
   - a label for a group of servers
-- *Inventory*
+- _Inventory_
   - this is where the individual servers are listed for an environment
   - each server is a deployment target
-- *Task templates*
+- _Task templates_
   - this is where all the above variables can be assembled to create a deployment scenario
 
 
@@ -131,13 +131,13 @@ Once you have Semaphore up and running, you can start to create deployment scena
 
 Assuming that you have already followed these simple steps in the relevant tabs:
 
-- *__Key Store__* - added SSH keys for Github repo and for access to deployment server/s
-- *__Playbook Repository__* - added your Ansible playbook repo URI and associated SSH key
-- *__Environment__* - created an environment label
+- ___Key Store___ - added SSH keys for Github repo and for access to deployment server/s
+- ___Playbook Repository___ - added your Ansible playbook repo URI and associated SSH key
+- ___Environment___ - created an environment label
 
 The remaining steps (in detail) are:
 
-- *__Inventory__*:
+- ___Inventory___:
 
   - in the Inventory tab, click the "create inventory" button to produce the following modal:
 
@@ -155,7 +155,7 @@ The remaining steps (in detail) are:
 
 
 
-- __Task Templates__:
+- ___Task Templates___:
 
   - Click the "new template" button to create a new task template:
 
