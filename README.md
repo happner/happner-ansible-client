@@ -3,6 +3,14 @@ Client application for managing Happn/Happner deployments. Based on [Semaphore](
 
 A set of sample Ansible scripts used for deploying Happner applications can be found here: https://github.com/happner/happner-ansible-orchestration
 
+
+
+## THE DEPLOYMENT PROCESS
+
+The process can be visualised as follows:
+
+![ansible deployment](https://cloud.githubusercontent.com/assets/9947358/23704964/0c5560aa-0410-11e7-9ad1-4c58b9b40c4e.png)
+
 ## SEMAPHORE INSTALLATION
 
 The Dockerfile included in the Semaphore repo was used to get things running.
