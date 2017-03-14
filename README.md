@@ -13,8 +13,6 @@ The process can be visualised as follows:
 
 ## SEMAPHORE INSTALLATION
 
-The Dockerfile included in the Semaphore repo was used to get things running.
-
 ### Repo
 
 - Clone the Semaphore repo from [https://github.com/ansible-semaphore/semaphore](https://github.com/ansible-semaphore/semaphore) into a local directory
@@ -29,54 +27,96 @@ The Dockerfile included in the Semaphore repo was used to get things running.
 - The reason for doing the above is so that you are able to access the shell (to set up the configuration file) rather than starting Semaphore straight away.
 
 ### Networking
--   In preparation for running Semaphore in a Docker container, you'll need to set up local networking to allow outgoing
-         requests from the container to access a local MySQL database:
-    - set up an alias on the local loopback interface, eg: 
-      `sudo ifconfig lo0 alias 10.200.10.1/24`
-    - to remove this just use: 
-      `sudo ifconfig lo0 -alias 10.200.10.1`
+-   In preparation for running Semaphore in a Docker container, you'll need to set up local networking to allow outgoing requests from the container to access a local MySQL database
+-   set up an alias on the local loopback interface, eg: 
 
-### External access to a local MySQL database
-Your local database will need to provide external access to the Docker container - see below:
+    ```bash
+    sudo nano /etc/network/interfaces
+    ...
+    # modify the file as follows
+    auto lo:0
+    iface lo:0 inet static
+    address 10.200.10.1
+    ```
 
--   Ensure that you have a user on the local MySQL database that allows external access, eg:
-    - `CREATE USER 'semaphore_user'@'10.100.10.1' IDENTIFIED BY 'password';` 
-    - `GRANT ALL PRIVILEGES ON semaphore.* TO 'semaphore_user'@'10.200.10.1';`
-    - `FLUSH PRIVILEGES;`
+### MySQL
+
+Semaphore requires a MySQL database to store deployment configurations. The database will need to provide external access to the Docker container - see below:
+
+#### Installation of MySQL on Ubuntu
+
+-   A great resource for setting MySQL up on Ubuntu can be found here: [http://www.configserverfirewall.com/ubuntu-linux/enable-mysql-remote-access-ubuntu/](http://www.configserverfirewall.com/ubuntu-linux/enable-mysql-remote-access-ubuntu/)
+
+-   Check the bindings - modify `/etc/mysql/mysql.conf.d/mysqld.cnf` as follows:
+
+    ```bash
+    bind-address = 0.0.0.0	#this allows all - use 10.200.10.1 to be more restrictive  
+    ```
+
+    Then restart the service 
+
+    ```
+    sudo systemctl restart mysql.service
+    ```
+
+#### Installation of MySQL on OSX
+
+- https://coderwall.com/p/os6woq/uninstall-all-those-broken-versions-of-mysql-and-re-install-it-with-brew-on-mac-mavericks
+
 -   Check the bindings on the local MySQL using: 
           `ps -ax | grep mysql`
-    -   this will show a list of processes for MySQL
-    -   you should see a line that reads 
+    -   this will show a list of processes for MySQL - you should see a line that reads 
+
             `bind-address=...`
     -   if this is __127.0.0.1__ you'll need to change the value to the alias created above
-    -   locate the relevant file to change this value (you should find this in your grep result):
-        - if you've used __brew__ to install MySQL, it should be in `usr/local/Cellar/mysql/[version]/homebrew.mxcl.mysql.plist`
-        - `nano /usr/local/Cellar/mysql/5.7.17/homebrew.mxcl.mysql.plist`
-        - change the line that says 
-          `<string>--bind-address=127.0.0.1</string>`
-           to your alias address or `*` or `0.0.0.0`
-        - __BE CAREFUL, IF YOU USE A WILDCARD THIS GIVES ACCESS TO ANYBODY__
-    -   restart MySQL:
-        - `brew services restart mysql`
-    -   test the remote connection to local MySQL using:
-        - `mysql -h 10.200.10.1 -u root -p`
 
-### Docker on OSX
-- Use the native Docker installer for OSX rather than the Docker Toolbox:
-  - [https://www.docker.com/products/docker#/mac](https://www.docker.com/products/docker#/mac)
+-   Locate the relevant file to change the bindings:
+    - if you've used __brew__ to install MySQL, it should be in `usr/local/Cellar/mysql/[version]/homebrew.mxcl.mysql.plist`
+
+-   Modify the file: 
+    `nano /usr/local/Cellar/mysql/5.7.17/homebrew.mxcl.mysql.plist`
+
+    - change the line that says `<string>--bind-address=127.0.0.1</string>` to your alias address or `*` or `0.0.0.0`
+
+-   Restart MySQL:
+    - `brew services restart mysql`
+
+-   Test the remote connection to local MySQL using:
+    - `mysql -h 10.200.10.1 -u root -p`
+
+#### Create the database and user
+
+- `CREATE USER 'semaphore_user'@'10.200.10.1' IDENTIFIED BY 'password';` 
+  OR (to allow connections from anywhere)
+  `CREATE USER 'semaphore_user'@'%' IDENTIFIED BY 'password';`
+- NOTE: on an EC2 instance this will be something like:
+  ` create user 'semaphore_user'@'ip-10-200-10-1.eu-west-1.compute.internal' identified by 'password';`
+- `CREATE DATABASE semaphore;`
+- `GRANT ALL PRIVILEGES ON semaphore.* TO 'semaphore_user'@'10.200.10.1';`
+- `FLUSH PRIVILEGES;`
+
+### Docker
+
+If you don't already have Docker installed on the deployment server, follow the instructions below for installation:
+
+- OSX:
+  - Use the native Docker installer for OSX rather than the Docker Toolbox:
+    - [https://www.docker.com/products/docker#/mac](https://www.docker.com/products/docker#/mac)
+- Ubuntu:
+  - [https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-16-04](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-16-04)
 
 ### Docker image
-- From the root of the project, build the Docker image using something like:
+- From the root of the cloned project, you can now build the Docker image using:
 
   `sudo docker build -t happner/ansible-client:v1 .`
-- Once its built, start a container as follows:
+- Once its built, you will be able to start a container as follows:
 
 ```bash
 docker run -e SEMAPHORE_DB=semaphore -e SEMAPHORE_DB_HOST=10.200.10.1 -e SEMAPHORE_DB_PORT=3306 -e SEMAPHORE_DB_USER=semaphore_user -e SEMAPHORE_DB_PASS=password 
--e SEMAPHORE_ADMIN=admin -e SEMAPHORE_ADMIN_NAME=admin -e SEMAPHORE_ADMIN_EMAIL=admin@test.com -e SEMAPHORE_ADMIN_PASSWORD=password -p 3000:3000 -it --rm happner/ansible-client:v1
+-e SEMAPHORE_ADMIN=admin -e SEMAPHORE_ADMIN_NAME=admin -e SEMAPHORE_ADMIN_EMAIL=admin@test.com -e SEMAPHORE_ADMIN_PASSWORD=password -e  ANSIBLE_HOST_KEY_CHECKING=false -p 3000:3000 -it --rm happner/ansible-client:v1
 ```
 
--  The above ENV variables will ensure that Semaphore can connect to the local MySQL instance and will also create a default __admin__ user
+-  The above ENV variables (signified by an __-e__ switch) will ensure that Semaphore can connect to the local MySQL instance and will also create a default __admin__ user
 
 -  Sample output of starting the container:
 
@@ -84,32 +124,22 @@ docker run -e SEMAPHORE_DB=semaphore -e SEMAPHORE_DB_HOST=10.200.10.1 -e SEMAPHO
    > Username:  > Email:  > Your name:  > Password: 
    You are all setup !
    Re-launch this program pointing to the configuration file
+   ....
    ```
 
-  ./semaphore -config /tmp/semaphore/semaphore_config.json
-  ....
-  ```
+-  Once the container is started, you can start Semaphore:
 
-  - notice that the location of the semaphore_config.json is in the temp directory in the container. You'll need to move this in the container as follows:
+   ```bash
+   /usr/bin/semaphore -config /tmp/semaphore/semaphore_config.json
+   ```
 
-    ```bash
-    cp /tmp/semaphore/semaphore_config.json /etc/semaphore/semaphore_config.json
-  ```
+-  The API endpoints should all be displayed in the container terminal
 
--   now you can start Semaphore - it will use the config copied above
+-  You'll now be able to access the web application via __localhost:3000__!
 
-    ```bash
-    /usr/bin/semaphore -config /etc/semaphore/semaphore_config.json
-    ```
+   - __*__ the admin login credentials are the ENV vars that you passed in when starting the container (see docker run above):  __admin__ : __password__
 
--   The API endpoints should all be displayed in the container terminal
-
--   You'll now be able to access the web application via __localhost:3000__!
-
-    - __*__ the admin login credentials are the ENV vars that you passed in when starting the container (see docker run above):  __admin__ : __password__
-
--   Good luck ;-)
-
+-  Good luck ;-)
 
 
 ## CREATING DEPLOYMENT SCENARIOS IN SEMAPHORE
